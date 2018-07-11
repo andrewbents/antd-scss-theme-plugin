@@ -68,11 +68,11 @@ export const loadScssThemeAsLess = (themeScssPath) => {
  * @return {string} A string representing an SCSS file containing all the theme and color
  *   variables used in Ant Design.
  */
-export const compileThemeVariables = (themeScssPath) => {
+export const compileThemeVariables = (themeScssPath, modifyVars) => {
   const themeEntryPath = require.resolve('antd/lib/style/themes/default.less');
   const variableOverrides = themeScssPath ? loadScssThemeAsLess(themeScssPath) : {};
 
-  return extractLessVariables(themeEntryPath, variableOverrides)
+  return extractLessVariables(themeEntryPath, Object.assign(variableOverrides, modifyVars))
     .then(variables => (
       Object.entries(variables)
         .map(([name, value]) => `$${name}: ${value};\n`)

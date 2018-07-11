@@ -42,7 +42,7 @@ export const overloadSassLoaderOptions = async (options) => {
   const newOptions = { ...options };
   const scssThemePath = getScssThemePath(options);
 
-  const contents = await compileThemeVariables(scssThemePath);
+  const contents = await compileThemeVariables(scssThemePath, options.modifyVars);
   const extraImporter = themeImporter(scssThemePath, contents);
 
   let importer;
@@ -78,6 +78,7 @@ export default function antdSassLoader(...args) {
   overloadSassLoaderOptions(options)
     .then((newOptions) => {
       delete newOptions.scssThemePath; // eslint-disable-line no-param-reassign
+      delete newOptions.modifyVars; // eslint-disable-line no-param-reassign
       newLoaderContext.query = newOptions;
 
       const scssThemePath = getScssThemePath(options);
